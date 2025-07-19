@@ -8,3 +8,20 @@ const JWT_SECRET = process.env.JWT_SECRET ||
 '96c590477285d1b8fbe4b9b8c7af3799f05511e7c6ec604a08dc6fc86c75b2e6';
 //we will use this secret to sign our JWT tokens
 
+//Registration route
+router.post('./register', async (req, res) => {
+    const { email, password } = req.body;
+    const data = loadData();
+    if(data.users[email]){
+        return res.status(400).json({ message : 'User alreadt exists' });
+    
+    }
+    try{
+        //Hash password
+        const hashedPassword  = await bcrypt.hash(password, 10);
+        //Create user
+        data.users[email] = {
+            
+        }
+    }
+}
