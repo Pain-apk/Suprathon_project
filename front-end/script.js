@@ -1,5 +1,5 @@
 // API Configuration
-const API_BASE_URL = 'https://your-vercel-app-name.vercel.app/api'; // Change to your Vercel URL
+const API_BASE_URL = 'https://suprathon-project-956snwp2f-pain-apks-projects.vercel.app/'; // Change to your Vercel URL
 
 // DOM Elements
 const resumeForm = document.getElementById('resumeForm');

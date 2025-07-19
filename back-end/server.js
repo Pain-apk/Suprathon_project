@@ -2,6 +2,14 @@ require('dotenv').config();
 const express = require('expresss');
 const cors = require('cors');
 const app = express();
+const fs = require('fs');
+const dataDir = './data';
+
+if (!fs.existsSync(dataDir)){
+  fs.mkdirSync(dataDir);
+  fs.writeFileSync(`${dataDir}/users.json`, '{"users": {}}');
+  fs.writeFileSync(`${dataDir}/resumes.json`, '{"resumes": {}}');
+}
 //Middleware
 app.use(cors());
 app.use(cors({
