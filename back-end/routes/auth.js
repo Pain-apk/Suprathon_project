@@ -4,12 +4,11 @@ const bcrypt = require('bcryptjs');
 const router = express.Router();
 const { loadData, saveData } = require('../utils/datastore');
 
-const JWT_SECRET = process.env.JWT_SECRET || 
-'96c590477285d1b8fbe4b9b8c7af3799f05511e7c6ec604a08dc6fc86c75b2e6';
+const JWT_SECRET = process.env.JWT_SECRET || 'your_secure_secret_here';
 //we will use this secret to sign our JWT tokens
 
 //Registration route
-router.post('./register', async (req, res) => {
+router.post('/register', async (req, res) => {
     const { email, password } = req.body;
     const data = loadData();
     if(data.users[email]){
@@ -83,7 +82,8 @@ router.post('/login', async (req, res) => {
       profile: user.profile 
     });
   } catch (error) {
-    res.status(500).json({ error: 'Login failed' });
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Login failed', details: error.message });
   }
 });
 
