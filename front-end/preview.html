@@ -59,6 +59,14 @@
     }
       const template = localStorage.getItem('template') || 'modern';
       document.getElementById('preview-body').classList.add(template);
+      
+  // Check if user is logged in
+  document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = 'auth.html';
+    }
+  });
     
   </script>
 </body>
