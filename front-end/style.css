@@ -1,298 +1,224 @@
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-
-/* CSS Variables for Minimalist Theme */
 :root {
-    --accent: #3b82f6;
-    --bg-main: #fff;
-    --bg-alt: #f5f5f7;
-    --border: #e5e7eb;
-    --text-main: #222;
-    --text-muted: #666;
-    --radius: 10px;
-    --transition: 0.2s cubic-bezier(0.4,0,0.2,1);
+  --bg: #f1f2f6;
+  --text: #2f3542;
+  --accent: #4a69bd;
+  --card: #ffffff;
+  --shadow: rgba(0,0,0,0.1);
+  --heading-font: 'Poppins', sans-serif;
+  --body-font: 'Inter', sans-serif;
 }
 
-/* Base Styles */
+body.dark {
+  --bg: #1e272e;
+  --text: #dcdde1;
+  --accent: #00a8ff;
+  --card: #2f3640;
+  --shadow: rgba(255,255,255,0.05);
+}
+
 body {
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    background: var(--bg-main);
-    color: var(--text-main);
-    line-height: 1.6;
+  margin: 0;
+  font-family: var(--body-font);
+  background: linear-gradient(135deg, var(--bg), #ecf0f1);
+  color: var(--text);
+  transition: all 0.3s ease;
+  min-height: 100vh;
+}
+
+.navbar {
+  background: var(--card);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 6px var(--shadow);
+}
+
+.navbar h2 {
+  margin: 0;
+  font-family: var(--heading-font);
+  font-size: 1.4rem;
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.tools button {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
 }
 
 .container {
-    display: flex;
-    gap: 32px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px 16px;
-    min-height: 100vh;
-    align-items: flex-start;
+  max-width: 720px;
+  margin: 3rem auto;
+  background: var(--card);
+  padding: 2.5rem 3rem;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px var(--shadow);
+  text-align: center;
 }
 
-/* Form Container */
-.form-container {
-    flex: 1;
-    background: var(--bg-alt);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 32px;
-    transition: var(--transition);
-    box-shadow: none;
+.container h1 {
+  font-family: var(--heading-font);
+  font-size: 2rem;
+  color: var(--accent);
+  font-weight: 800;
+  margin-bottom: 2rem;
 }
 
-.form-container:hover {
-    border-color: var(--accent);
-}
-
-/* Typography */
-h1, .resume-header h1 {
-    margin: 0 0 24px 0;
-    font-size: 2.2rem;
-    font-weight: 600;
-    color: var(--accent);
-    background: none;
-    -webkit-text-fill-color: unset;
-}
-
-.form-container > p, .resume-header p {
-    color: var(--text-muted);
-    font-size: 1.05rem;
-    margin-bottom: 24px;
-}
-
-legend {
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: var(--accent);
-    margin-bottom: 12px;
-    padding-bottom: 0;
-    border-bottom: none;
-}
-
-label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
-    color: var(--text-main);
-    font-size: 1rem;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-textarea {
-    width: 100%;
-    padding: 12px 16px;
-    margin-bottom: 18px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    font-size: 1rem;
-    background: #fff;
-    transition: var(--transition);
-    box-sizing: border-box;
-}
-
-input:focus,
-textarea:focus {
-    outline: none;
-    border-color: var(--accent);
-    background: #f0f8ff;
+input, textarea, select {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  margin-bottom: 1.2rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-family: var(--body-font);
+  font-size: 1rem;
+  box-sizing: border-box;
+  background: white;
 }
 
 textarea {
-    height: 100px;
-    resize: vertical;
-    font-family: inherit;
+  resize: vertical;
+  min-height: 100px;
 }
 
-small {
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    margin-bottom: 12px;
-    display: block;
+button {
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-family: var(--body-font);
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
 }
 
-/* Buttons */
-button, .download-btn, #add-work-btn, #add-edu-btn {
-    background: var(--accent);
-    color: #fff;
-    padding: 12px 22px;
-    border: none;
-    border-radius: var(--radius);
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 600;
-    transition: var(--transition);
+button:hover {
+  opacity: 0.9;
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  margin: 1rem auto;
+  box-shadow: 0 0 10px var(--shadow);
+}
+
+/* Paper look in preview */
+.paper {
+  background: white;
+  width: 794px; /* A4 at 96dpi */
+  min-height: 1123px;
+  margin: auto;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.15);
+  padding: 60px 50px;
+  border-radius: 2px;
+}
+
+.paper h1 {
+  font-family: var(--heading-font);
+  text-align: center;
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+}
+
+.paper p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0.5rem 0;
+}
+
+.section {
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.section h3 {
+  margin-bottom: 0.5rem;
+  font-family: var(--heading-font);
+  color: var(--accent);
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 4px;
+}
+
+/* Hide UI when printing */
+@media print {
+  .navbar, .tools, .button-row {
+    display: none !important;
+  }
+  body {
+    background: white;
+  }
+  .paper {
     box-shadow: none;
-    margin-top: 8px;
-    text-transform: none;
-}
-
-button:hover, .download-btn:hover, #add-work-btn:hover, #add-edu-btn:hover {
-    background: #2563eb;
-    transform: translateY(-2px);
-}
-
-.download-btn {
-    width: 100%;
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-top: 28px;
-}
-
-/* Minimalist Dynamic Entry */
-.dynamic-entry {
-    background: var(--bg-main);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 18px;
-    margin-bottom: 14px;
-    transition: var(--transition);
-}
-
-.dynamic-entry:hover {
-    border-color: var(--accent);
-}
-
-/* Resume Preview */
-.preview-container {
-    flex: 1;
-}
-
-#resume-preview {
-    background: var(--bg-main);
-    border-radius: var(--radius);
-    min-height: 80vh;
-    border: 1px solid var(--border);
-    padding: 40px;
-    transition: var(--transition);
-}
-
-#resume-preview:hover {
-    border-color: var(--accent);
-}
-
-.resume-header {
-    text-align: center;
-    border-bottom: 2px solid var(--border);
-    padding-bottom: 16px;
-    margin-bottom: 24px;
-}
-
-.resume-contact {
-    text-align: center;
-    margin-bottom: 32px;
-    color: var(--text-muted);
-    font-weight: 500;
-    font-size: 1rem;
-}
-
-/* Resume Sections */
-.resume-section {
-    margin-bottom: 28px;
-}
-
-.resume-section h2 {
-    font-size: 1.18rem;
-    font-weight: 600;
-    color: var(--accent);
-    margin-top: 0;
-    margin-bottom: 14px;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 4px;
-}
-
-#preview-skills {
-    list-style: none;
-    padding: 0;
     margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    padding: 20px;
+  }
+}
+.template-options {
+  display: flex;
+  gap: 1rem;
+  margin: 20px 0;
+}
+.template-card {
+  border: 2px solid transparent;
+  padding: 20px;
+  cursor: pointer;
+  text-align: center;
+  width: 150px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+input[type="radio"]:checked + .template-card {
+  border-color: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+.template-card.modern {
+  background: #e7f0fd;
+  font-family: 'Inter', sans-serif;
+}
+.template-card.classic {
+  background: #f9f5f1;
+  font-family: 'Georgia', serif;
+}
+.template-card.bold {
+  background: #2f3640;
+  color: white;
+  font-family: 'Poppins', sans-serif;
 }
 
-#preview-skills li {
-    background: var(--accent);
-    color: #fff;
-    padding: 6px 14px;
-    border-radius: 16px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: default;
+/* Actual resume styling for templates */
+body.modern .paper {
+  font-family: 'Inter', sans-serif;
+  border-left: 6px solid var(--accent);
+  background: #ffffff;
+  padding-left: 60px;
 }
-
-.work-entry, .edu-entry {
-    margin-bottom: 18px;
-    padding: 12px;
-    background: var(--bg-alt);
-    border-radius: var(--radius);
-    border-left: 3px solid var(--accent);
-    border: 1px solid var(--border);
+body.classic .paper {
+  font-family: 'Georgia', serif;
+  border: 2px solid #aaa;
+  background: #fdfdfd;
+  padding: 40px;
 }
-
-.work-entry h3, .edu-entry h3 {
-    margin: 0 0 6px 0;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text-main);
+body.bold .paper {
+  font-family: 'Poppins', sans-serif;
+  background: #1e272e;
+  color: #f1f2f6;
 }
-
-.work-entry p, .edu-entry p {
-    margin: 6px 0;
-    color: var(--text-muted);
-    font-weight: 400;
-}
-
-.work-entry .date, .edu-entry .date {
-    font-style: italic;
-    color: var(--accent);
-    font-weight: 500;
-    font-size: 0.95rem;
-}
-
-/* Responsive Design */
-@media (max-width: 900px) {
-    .container {
-        flex-direction: column;
-        gap: 24px;
-    }
-    .form-container, .preview-container, #resume-preview {
-        width: 100%;
-        padding: 24px 12px;
-    }
-    h1, .resume-header h1 {
-        font-size: 1.7rem;
-    }
-}
-
-@media (max-width: 600px) {
-    .container {
-        padding: 16px 4px;
-    }
-    .form-container, #resume-preview {
-        padding: 16px 6px;
-    }
-    input, textarea {
-        padding: 10px;
-    }
-    button, .download-btn {
-        padding: 9px 14px;
-    }
-}
-
-/* Minimal scrollbar for Webkit browsers */
-::-webkit-scrollbar {
-    width: 7px;
-}
-::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: var(--accent);
+body.bold .paper h1,
+body.bold .paper h3 {
+  color: var(--accent);
 }

@@ -1,188 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Professional Resume & Portfolio Generator">
-    <title>Resume Generator</title>
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Step 1: Personal Info</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
 </head>
 <body>
-    <!-- Authentication Section -->
-    <div id="auth-section" style="display: none;">
-        <div class="container">
-            <header>
-                <h1>📄 Resume Generator</h1>
-                <p class="subtitle">Sign in or register to create professional resumes</p>
-            </header>
-            <div class="auth-container" style="max-width: 400px; margin: 0 auto;">
-                <!-- Login Form -->
-                <div id="login-form" class="card">
-                    <h2 class="section-title">Login</h2>
-                    <div class="form-group">
-                        <label for="login-email">Email</label>
-                        <input type="email" id="login-email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="login-password">Password</label>
-                        <input type="password" id="login-password" required>
-                    </div>
-                    <div class="btn-group">
-                        <button type="button" id="login-btn" class="btn">Login</button>
-                        <button type="button" onclick="showRegisterForm()" class="btn-secondary">Register Instead</button>
-                    </div>
-                </div>
-                <!-- Register Form -->
-                <div id="register-form" class="card" style="display: none;">
-                    <h2 class="section-title">Register</h2>
-                    <div class="form-group">
-                        <label for="register-email">Email</label>
-                        <input type="email" id="register-email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="register-password">Password</label>
-                        <input type="password" id="register-password" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="register-confirm-password">Confirm Password</label>
-                        <input type="password" id="register-confirm-password" required>
-                    </div>
-                    <div class="btn-group">
-                        <button type="button" id="register-btn" class="btn">Register</button>
-                        <button type="button" onclick="showLoginForm()" class="btn-secondary">Login Instead</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Main Content -->
-    <div id="main-content">
-        <div class="container">
-            <header>
-                <h1>📄 Resume Generator</h1>
-                <p class="subtitle">Create professional resumes in minutes</p>
-            </header>
-            <!-- Form Section -->
-            <section class="card">
-                <h2 class="section-title">Your Information</h2>
-                <form id="resume-form">
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="title">Professional Title</label>
-                        <input type="text" id="title" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone</label>
-                        <input type="tel" id="phone">
-                    </div>
-                    <div class="form-group">
-                        <label for="linkedin">LinkedIn</label>
-                        <input type="url" id="linkedin">
-                    </div>
-                    <div class="form-group">
-                        <label for="summary">Professional Summary</label>
-                        <textarea id="summary" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="skills">Skills (comma separated)</label>
-                        <input type="text" id="skills" required>
-                    </div>
-                    <div id="experience-container">
-                        <h3 class="section-title">Work Experience</h3>
-                        <!-- Experience forms will be injected here -->
-                    </div>
-                    <button type="button" id="add-experience" class="btn-secondary">+ Add Experience</button>
-                    <div id="education-container">
-                        <h3 class="section-title">Education</h3>
-                        <!-- Education forms will be injected here -->
-                    </div>
-                    <button type="button" id="add-education" class="btn-secondary">+ Add Education</button>
-                    <div class="form-group">
-                        <label for="template-type">Resume Template Style</label>
-                        <select id="template-type">
-                            <option value="professional">Professional</option>
-                            <option value="creative">Creative</option>
-                            <option value="academic">Academic</option>
-                            <option value="technical">Technical</option>
-                        </select>
-                    </div>
-                    <div class="btn-group">
-                        <button type="button" id="reset" class="btn-secondary">Reset Form</button>
-                        <button type="button" id="save-resume-btn" class="btn-secondary">Save Resume</button>
-                        <button type="button" id="generate-ai-btn" class="btn">Generate AI Resume</button>
-                        <button type="button" id="download-pdf" class="btn">Download PDF</button>
-                        <button type="button" id="logout-btn" class="btn-secondary">Logout</button>
-                    </div>
-                </form>
-            </section>
-            <!-- Preview Section -->
-            <section class="card">
-                <h2 class="section-title">Resume Preview</h2>
-                <div id="resume-preview" class="resume-preview">
-                    <div class="preview-header">
-                        <h1 id="preview-name" class="preview-name">Your Name</h1>
-                        <p id="preview-title" class="preview-title">Your Professional Title</p>
-                    </div>
-                    <div class="contact-info">
-                        <span id="preview-phone" class="contact-item">Phone</span>
-                        <span id="preview-email" class="contact-item">Email</span>
-                        <span id="preview-linkedin" class="contact-item">LinkedIn</span>
-                    </div>
-                    <div class="resume-section">
-                        <h3>Summary</h3>
-                        <p id="preview-summary">Your professional summary will appear here.</p>
-                    </div>
-                    <div class="resume-section">
-                        <h3>Skills</h3>
-                        <div id="preview-skills" class="skills-list">
-                            <span class="skill-tag">Sample Skill</span>
-                        </div>
-                    </div>
-                    <div class="resume-section">
-                        <h3>Experience</h3>
-                        <div id="preview-experience">
-                            <p>Your work experience will appear here.</p>
-                        </div>
-                    </div>
-                    <div class="resume-section">
-                        <h3>Education</h3>
-                        <div id="preview-education">
-                            <p>Your education will appear here.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script>
-    // ... [Keep all your script as-is, but]
-    // Fix: Remove any duplicate calls for addEventListener on #generate-ai-btn
-    // Fix: Remove undefined generateAIResume
-    // Fix: Remove inline JS that was inside HTML markup sections
-
-    // Add the following when the page loads to add a blank experience and education form:
-    window.addEventListener('DOMContentLoaded', () => {
-        // Add the initial experience form
-        document.getElementById('add-experience').click();
-        // Add the initial education form
-        document.getElementById('add-education').click();
-    });
-
-    // The rest of your script stays the same, with the above major issues fixed.
-    </script>
+  <div class="navbar">
+    <h2>ResumeGen</h2>
+    <div class="tools"><button id="toggle-theme">🌓</button></div>
+  </div>
+  <div class="container">
+    <h1>Step 1: Personal Information</h1>
+    <input id="name" placeholder="Full Name" />
+    <textarea id="summary" placeholder="Professional Summary"></textarea>
+    <input id="education" placeholder="Education (e.g. B.Tech CSE, 2021–25)" />
+    <button onclick="saveStep()">Next →</button>
+  </div>
+  <script src="theme.js"></script>
+  <script>
+    function saveStep() {
+      ['name','summary','education'].forEach(id => 
+        localStorage.setItem(id, document.getElementById(id).value)
+      );
+      location.href = 'experience.html';
+    }
+  </script>
 </body>
 </html>

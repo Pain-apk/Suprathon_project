@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Resume Preview</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <div class="navbar">
+    <h2>ResumeGen</h2>
+    <div class="tools">
+      <button onclick="window.print()">🖨️ Print</button>
+      <button onclick="downloadPDF()">📄 Download PDF</button>
+    </div>
+  </div>
+
+  <div class="paper" id="resume-wrapper">
+    <img id="profilePic" class="profile-pic" src="" alt="Profile" style="display:none;" />
+    <h1 id="name"></h1>
+    <p id="summary" style="text-align:center;"></p>
+
+    <div class="section"><h3>Education</h3><p id="education"></p></div>
+    <div class="section"><h3>Experience</h3><p id="experience"></p></div>
+    <div class="section"><h3>Hard Skills</h3><p id="skills"></p></div>
+    <div class="section"><h3>Soft Skills</h3><p id="softSkills"></p></div>
+    <div class="section"><h3>Projects</h3><p id="projects"></p></div>
+    <div class="section">
+      <h3>Links</h3>
+      <p><strong>GitHub:</strong> <span id="github"></span></p>
+      <p><strong>Blog:</strong> <span id="blog"></span></p>
+    </div>
+  </div>
+
+  <script>
+    ['name','summary','education','experience','skills','softSkills','projects','github','blog'].forEach(id=>{
+      document.getElementById(id).textContent = localStorage.getItem(id) || '';
+    });
+    const profile = localStorage.getItem('profilePic');
+    if(profile){
+      const img = document.getElementById('profilePic');
+      img.src = profile;
+      img.style.display = 'block';
+    }
+
+    function downloadPDF(){
+      const element = document.getElementById("resume-wrapper");
+      html2canvas(element).then(canvas=>{
+        const imgData=canvas.toDataURL("image/png");
+        const pdf=new jspdf.jsPDF("p","mm","a4");
+        const imgProps=pdf.getImageProperties(imgData);
+        const pdfWidth=pdf.internal.pageSize.getWidth();
+        const pdfHeight=(imgProps.height*pdfWidth)/imgProps.width;
+        pdf.addImage(imgData,"PNG",0,0,pdfWidth,pdfHeight);
+        pdf.save("resume.pdf");
+      });
+    }
+      const template = localStorage.getItem('template') || 'modern';
+      document.getElementById('preview-body').classList.add(template);
+    
+  </script>
+</body>
+</html>
