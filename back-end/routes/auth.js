@@ -4,10 +4,9 @@ const bcrypt = require('bcryptjs');
 const router = express.Router();
 const { loadData, saveData } = require('../utils/datastore');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your_secure_secret_here';
+const JWT_SECRET = process.env.JWT_SECRET;
 const SALT_ROUNDS = 10;
 
-// Input validation middleware
 const validateAuthInput = (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -19,10 +18,9 @@ const validateAuthInput = (req, res, next) => {
   next();
 };
 
-// Registration route
 router.post('/register', validateAuthInput, async (req, res) => {
   const { email, password } = req.body;
-  const data = loadData();
+  const data = loadData(req);
   
   if (data.users[email]) {
     return res.status(400).json({ message: 'User already exists' });
@@ -48,25 +46,18 @@ router.post('/register', validateAuthInput, async (req, res) => {
         githubData: null,
         linkedinData: null
       },
-      resumes: [] // Changed from 'resume' to 'resumes' for consistency
+      resumes: []
     };
 
-    if (saveData(data)) {
-      // Generate token on registration
-      const token = jwt.sign(
-        { id: userId, email }, 
-        JWT_SECRET, 
-        { expiresIn: '1h' }
-      );
+    saveData(req, data);
+
+    const token = jwt.sign({ id: userId, email }, JWT_SECRET, { expiresIn: '1h' });
       
-      res.status(201).json({ 
-        message: 'User registered successfully',
-        token,
-        userId
-      });
-    } else {
-      throw new Error('Failed to save user data');
-    }
+    res.status(201).json({ 
+      message: 'User registered successfully',
+      token,
+      userId
+    });
   } catch (error) {
     console.error('Registration error:', error);
     res.status(500).json({ 
@@ -76,10 +67,9 @@ router.post('/register', validateAuthInput, async (req, res) => {
   }
 });
 
-// User Login
 router.post('/login', validateAuthInput, async (req, res) => {
   const { email, password } = req.body;
-  const data = loadData();
+  const data = loadData(req);
   const user = data.users[email];
   
   if (!user) {
@@ -92,15 +82,10 @@ router.post('/login', validateAuthInput, async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
     
-    // Update last login
     user.lastLogin = new Date().toISOString();
-    saveData(data);
+    saveData(req, data);
     
-    const token = jwt.sign(
-      { id: user.id, email: user.email }, 
-      JWT_SECRET, 
-      { expiresIn: '1h' }
-    );
+    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
     
     res.json({ 
       message: 'Login successful',

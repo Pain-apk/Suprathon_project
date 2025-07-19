@@ -4,27 +4,24 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const router = express.Router();
 const { loadData, saveData } = require('../utils/datastore');
 
-// Initialize Gemini API with the provided key
-const genAI = new GoogleGenerativeAI('AIzaSyDY26ke1z5sdthCDbZyTL7xKzinwwFru4M'); // g-key
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// Middleware to authenticate token
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   
   if (!token) return res.sendStatus(401);
   
-  jwt.verify(token, process.env.JWT_SECRET || '96c590477285d1b8fbe4b9b8c7af3799f05511e7c6ec604a08dc6fc86c75b2e6', (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
     req.user = user;
     next();
   });
 };
 
-// Generate resume with AI
 router.post('/generate', authenticateToken, async (req, res) => {
   const { templateType } = req.body;
-  const data = loadData();
+  const data = loadData(req);
   const user = Object.values(data.users).find(u => u.email === req.user.email);
   
   if (!user) {
@@ -32,7 +29,6 @@ router.post('/generate', authenticateToken, async (req, res) => {
   }
   
   try {
-    // Construct AI prompt
     const prompt = `
     Create a professional resume in JSON format based on the following information:
     
@@ -54,16 +50,13 @@ router.post('/generate', authenticateToken, async (req, res) => {
     Ensure ATS compatibility and use action verbs.
     `;
     
-    // Call Gemini API instead of OpenAI
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const responseText = response.text();
     
-    // Parse AI response
     const aiResume = JSON.parse(responseText);
     
-    // Store generated resume
     const resumeId = `res-${Date.now()}`;
     data.resumes[resumeId] = {
       id: resumeId,
@@ -73,11 +66,9 @@ router.post('/generate', authenticateToken, async (req, res) => {
       content: aiResume
     };
     
-    // Link to user
     user.resumes.push(resumeId);
     
-    // Save data
-    if (saveData(data)) {
+    if (saveData(req, data)) {
       res.json({ 
         success: true,
         resumeId,
