@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { OpenAI } = require('openai');
 const router = express.Router();
 const { loadData, saveData } = require('../utils/dataStore');
-
+//AI apikey setup
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
