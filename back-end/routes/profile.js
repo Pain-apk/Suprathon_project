@@ -1,8 +1,11 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
-const { loadData, saveData } = require('../utils/dataStore');
+const { loadData, saveData } = require('../utils/datastore');
 const axios = require('axios');
+
+// GitHub API key
+const GITHUB_API_KEY = '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';
 
 // Middleware to authenticate token
 const authenticateToken = (req, res, next) => {
@@ -11,7 +14,7 @@ const authenticateToken = (req, res, next) => {
   
   if (!token) return res.sendStatus(401);
   
-  jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret', (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET || '96c590477285d1b8fbe4b9b8c7af3799f05511e7c6ec604a08dc6fc86c75b2e6', (err, user) => {
     if (err) return res.sendStatus(403);
     req.user = user;
     next();
@@ -77,8 +80,16 @@ router.post('/', authenticateToken, async (req, res) => {
 async function fetchGitHubData(username) {
   try {
     const [profileRes, reposRes] = await Promise.all([
-      axios.get(`https://api.github.com/users/${username}`),
-      axios.get(`https://api.github.com/users/${username}/repos?sort=updated&per_page=10`)
+      axios.get(`https://api.github.com/users/${username}`, {
+        headers: {
+          'Authorization': `token ${GITHUB_API_KEY}`
+        }
+      }),
+      axios.get(`https://api.github.com/users/${username}/repos?sort=updated&per_page=10`, {
+        headers: {
+          'Authorization': `token ${GITHUB_API_KEY}`
+        }
+      })
     ]);
     
     return {
