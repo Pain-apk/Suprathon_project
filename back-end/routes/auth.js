@@ -21,7 +21,34 @@ router.post('./register', async (req, res) => {
         const hashedPassword  = await bcrypt.hash(password, 10);
         //Create user
         data.users[email] = {
-            
+            id: Date.now().toString(),
+            email,
+            password: hashedPassword,
+            createdAt: new Date().toISOString(),
+            lastlogin: null,
+            profile: {
+                personalInfo: {},
+                experience: [],
+                education: [],
+                skills: [],
+                projects: [],
+                certifications: [],
+                githubdata: null,
+                linkedinData: null
+
+            },
+            resume: []    
+        };
+        //Save Data
+        if(saveData(data)){
+            res.status(201).json({ message: 'User registered successfully' });
+        } else {
+            res.status(500).json({message: 'Unable to the user data' });
+
         }
-    }
+        }catch(error) {
+            res.status(500).json({ message: 'Registration failed', error: error.message });
+        }
+    });
+
 }
