@@ -50,5 +50,41 @@ router.post('./register', async (req, res) => {
             res.status(500).json({ message: 'Registration failed', error: error.message });
         }
     });
+//User Login
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+  const data = loadData();
+  const user = data.users[email];
+  
+  if (!user) {
+    return res.status(401).json({ error: 'Invalid credentials' });
+  }
+  
+  try {
+    // Verify password
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    
+    if (!passwordMatch) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+    
+    // Update last login
+    user.lastLogin = new Date().toISOString();
+    saveData(data);
+     // Generate JWT token
+    const token = jwt.sign(
+      { id: user.id, email: user.email }, 
+      JWT_SECRET, 
+      { expiresIn: '1h' }
+    );
+    res.json({ 
+      token, 
+      userId: user.id,
+      profile: user.profile 
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Login failed' });
+  }
+});
 
-}
+module.exports = router;
