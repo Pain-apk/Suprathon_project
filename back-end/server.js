@@ -4,6 +4,9 @@ const cors = require('cors');
 const app = express();
 //Middleware
 app.use(cors());
+app.use(cors({
+  origin: 'https://your-vercel-frontend.vercel.app' // Your frontend URL
+}));
 app.use(express.json());
 //Routes
 app.use('/api/auth',require('./routes/auth'));

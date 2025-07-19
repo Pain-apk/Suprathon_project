@@ -1,0 +1,299 @@
+
+.auth-form {
+  display: none;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.auth-form.active {
+  display: block;
+}
+
+.auth-form h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  margin-bottom: 1.2rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-family: var(--body-font);
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.auth-form button {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.auth-form p {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.auth-form a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-form a:hover {
+  text-decoration: underline;
+}
+
+#loader {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader-spinner {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid var(--accent);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+:root {
+  --bg: #f1f2f6;
+  --text: #2f3542;
+  --accent: #4a69bd;
+  --card: #ffffff;
+  --shadow: rgba(0,0,0,0.1);
+  --heading-font: 'Poppins', sans-serif;
+  --body-font: 'Inter', sans-serif;
+}
+
+body.dark {
+  --bg: #1e272e;
+  --text: #dcdde1;
+  --accent: #00a8ff;
+  --card: #2f3640;
+  --shadow: rgba(255,255,255,0.05);
+}
+
+body {
+  margin: 0;
+  font-family: var(--body-font);
+  background: linear-gradient(135deg, var(--bg), #ecf0f1);
+  color: var(--text);
+  transition: all 0.3s ease;
+  min-height: 100vh;
+}
+
+.navbar {
+  background: var(--card);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 6px var(--shadow);
+}
+
+.navbar h2 {
+  margin: 0;
+  font-family: var(--heading-font);
+  font-size: 1.4rem;
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.tools button {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.container {
+  max-width: 720px;
+  margin: 3rem auto;
+  background: var(--card);
+  padding: 2.5rem 3rem;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px var(--shadow);
+  text-align: center;
+}
+
+.container h1 {
+  font-family: var(--heading-font);
+  font-size: 2rem;
+  color: var(--accent);
+  font-weight: 800;
+  margin-bottom: 2rem;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  margin-bottom: 1.2rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-family: var(--body-font);
+  font-size: 1rem;
+  box-sizing: border-box;
+  background: white;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+button {
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-family: var(--body-font);
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  margin: 1rem auto;
+  box-shadow: 0 0 10px var(--shadow);
+}
+
+/* Paper look in preview */
+.paper {
+  background: white;
+  width: 794px; /* A4 at 96dpi */
+  min-height: 1123px;
+  margin: auto;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.15);
+  padding: 60px 50px;
+  border-radius: 2px;
+}
+
+.paper h1 {
+  font-family: var(--heading-font);
+  text-align: center;
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+}
+
+.paper p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0.5rem 0;
+}
+
+.section {
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.section h3 {
+  margin-bottom: 0.5rem;
+  font-family: var(--heading-font);
+  color: var(--accent);
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 4px;
+}
+
+/* Hide UI when printing */
+@media print {
+  .navbar, .tools, .button-row {
+    display: none !important;
+  }
+  body {
+    background: white;
+  }
+  .paper {
+    box-shadow: none;
+    margin: 0;
+    padding: 20px;
+  }
+}
+.template-options {
+  display: flex;
+  gap: 1rem;
+  margin: 20px 0;
+}
+.template-card {
+  border: 2px solid transparent;
+  padding: 20px;
+  cursor: pointer;
+  text-align: center;
+  width: 150px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+input[type="radio"]:checked + .template-card {
+  border-color: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+.template-card.modern {
+  background: #e7f0fd;
+  font-family: 'Inter', sans-serif;
+}
+.template-card.classic {
+  background: #f9f5f1;
+  font-family: 'Georgia', serif;
+}
+.template-card.bold {
+  background: #2f3640;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Actual resume styling for templates */
+body.modern .paper {
+  font-family: 'Inter', sans-serif;
+  border-left: 6px solid var(--accent);
+  background: #ffffff;
+  padding-left: 60px;
+}
+body.classic .paper {
+  font-family: 'Georgia', serif;
+  border: 2px solid #aaa;
+  background: #fdfdfd;
+  padding: 40px;
+}
+body.bold .paper {
+  font-family: 'Poppins', sans-serif;
+  background: #1e272e;
+  color: #f1f2f6;
+}
+body.bold .paper h1,
+body.bold .paper h3 {
+  color: var(--accent);
+}

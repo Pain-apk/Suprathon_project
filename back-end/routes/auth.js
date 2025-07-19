@@ -1,89 +1,119 @@
 const express = require('express');
-const jwt  = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
 const { loadData, saveData } = require('../utils/datastore');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_secure_secret_here';
-//we will use this secret to sign our JWT tokens
+const SALT_ROUNDS = 10;
 
-//Registration route
-router.post('/register', async (req, res) => {
-    const { email, password } = req.body;
-    const data = loadData();
-    if(data.users[email]){
-        return res.status(400).json({ message : 'User alreadt exists' });
+// Input validation middleware
+const validateAuthInput = (req, res, next) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Email and password are required' });
+  }
+  if (password.length < 8) {
+    return res.status(400).json({ message: 'Password must be at least 8 characters' });
+  }
+  next();
+};
+
+// Registration route
+router.post('/register', validateAuthInput, async (req, res) => {
+  const { email, password } = req.body;
+  const data = loadData();
+  
+  if (data.users[email]) {
+    return res.status(400).json({ message: 'User already exists' });
+  }
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    const userId = Date.now().toString();
     
+    data.users[email] = {
+      id: userId,
+      email,
+      password: hashedPassword,
+      createdAt: new Date().toISOString(),
+      lastLogin: null,
+      profile: {
+        personalInfo: {},
+        experience: [],
+        education: [],
+        skills: [],
+        projects: [],
+        certifications: [],
+        githubData: null,
+        linkedinData: null
+      },
+      resumes: [] // Changed from 'resume' to 'resumes' for consistency
+    };
+
+    if (saveData(data)) {
+      // Generate token on registration
+      const token = jwt.sign(
+        { id: userId, email }, 
+        JWT_SECRET, 
+        { expiresIn: '1h' }
+      );
+      
+      res.status(201).json({ 
+        message: 'User registered successfully',
+        token,
+        userId
+      });
+    } else {
+      throw new Error('Failed to save user data');
     }
-    try{
-        //Hash password
-        const hashedPassword  = await bcrypt.hash(password, 10);
-        //Create user
-        data.users[email] = {
-            id: Date.now().toString(),
-            email,
-            password: hashedPassword,
-            createdAt: new Date().toISOString(),
-            lastlogin: null,
-            profile: {
-                personalInfo: {},
-                experience: [],
-                education: [],
-                skills: [],
-                projects: [],
-                certifications: [],
-                githubdata: null,
-                linkedinData: null
-
-            },
-            resume: []    
-        };
-        //Save Data
-        if(saveData(data)){
-            res.status(201).json({ message: 'User registered successfully' });
-        } else {
-            res.status(500).json({message: 'Unable to the user data' });
-
-        }
-        }catch(error) {
-            res.status(500).json({ message: 'Registration failed', error: error.message });
-        }
+  } catch (error) {
+    console.error('Registration error:', error);
+    res.status(500).json({ 
+      message: 'Registration failed',
+      error: error.message 
     });
-//User Login
-router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
+  }
+});
+
+// User Login
+router.post('/login', validateAuthInput, async (req, res) => {
+  const { email, password } = req.body;
   const data = loadData();
   const user = data.users[email];
   
   if (!user) {
-    return res.status(401).json({ error: 'Invalid credentials' });
+    return res.status(401).json({ message: 'Invalid credentials' });
   }
   
   try {
-    // Verify password
     const passwordMatch = await bcrypt.compare(password, user.password);
-    
     if (!passwordMatch) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
     
     // Update last login
     user.lastLogin = new Date().toISOString();
     saveData(data);
-     // Generate JWT token
+    
     const token = jwt.sign(
       { id: user.id, email: user.email }, 
       JWT_SECRET, 
       { expiresIn: '1h' }
     );
+    
     res.json({ 
+      message: 'Login successful',
       token, 
       userId: user.id,
       profile: user.profile 
     });
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).json({ error: 'Login failed', details: error.message });
+    res.status(500).json({ 
+      message: 'Login failed',
+      error: error.message 
+    });
   }
 });
 

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Step 1: Personal Info</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <div class="navbar">
+    <h2>ResumeGen</h2>
+    <div class="tools"><button id="toggle-theme">🌓</button></div>
+  </div>
+  <div class="container">
+    <h1>Step 1: Personal Information</h1>
+    <input id="name" placeholder="Full Name" />
+    <textarea id="summary" placeholder="Professional Summary"></textarea>
+    <input id="education" placeholder="Education (e.g. B.Tech CSE, 2021–25)" />
+    <button onclick="saveStep()">Next →</button>
+  </div>
+  <script src="theme.js"></script>
+  <script>
+    function saveStep() {
+      ['name','summary','education'].forEach(id => 
+        localStorage.setItem(id, document.getElementById(id).value)
+      );
+      location.href = 'experience.html';
+  // Check if user is logged in
+  document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = 'auth.html';
+    }
+  });
+
+    }
+  </script>
+</body>
+</html>
