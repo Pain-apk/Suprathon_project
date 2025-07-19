@@ -1,12 +1,11 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const { OpenAI } = require('openai');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 const router = express.Router();
-const { loadData, saveData } = require('../utils/dataStore');
-//AI apikey setup
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
+const { loadData, saveData } = require('../utils/datastore');
+
+// Initialize Gemini API with the provided key
+const genAI = new GoogleGenerativeAI('AIzaSyDY26ke1z5sdthCDbZyTL7xKzinwwFru4M'); // g-key
 
 // Middleware to authenticate token
 const authenticateToken = (req, res, next) => {
@@ -15,7 +14,7 @@ const authenticateToken = (req, res, next) => {
   
   if (!token) return res.sendStatus(401);
   
-  jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret', (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET || '96c590477285d1b8fbe4b9b8c7af3799f05511e7c6ec604a08dc6fc86c75b2e6', (err, user) => {
     if (err) return res.sendStatus(403);
     req.user = user;
     next();
@@ -55,16 +54,14 @@ router.post('/generate', authenticateToken, async (req, res) => {
     Ensure ATS compatibility and use action verbs.
     `;
     
-    // Call OpenAI API
-    const response = await openai.chat.completions.create({
-      model: "gpt-4-turbo",
-      messages: [{ role: "user", content: prompt }],
-      max_tokens: 1500,
-      temperature: 0.7
-    });
+    // Call Gemini API instead of OpenAI
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const responseText = response.text();
     
     // Parse AI response
-    const aiResume = JSON.parse(response.choices[0].message.content);
+    const aiResume = JSON.parse(responseText);
     
     // Store generated resume
     const resumeId = `res-${Date.now()}`;
