@@ -13,442 +13,878 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary: #4361ee;
-            --primary-light: #e0e7ff;
-            --text: #1e293b;
-            --text-light: #64748b;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --border: #e2e8f0;
-            --shadow: 0 1px 3px rgba(0,0,0,0.1);
-            --radius: 0.5rem;
-            --transition: all 0.2s ease;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.5;
-            color: var(--text);
-            background-color: var(--bg);
-            padding: 1rem;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-        
-        header {
-            grid-column: 1 / -1;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-        
-        h1 {
-            font-size: 1.75rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .subtitle {
-            color: var(--text-light);
-            font-weight: 300;
-        }
-        
-        .card {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 1.5rem;
-            height: calc(100vh - 6rem);
-            overflow-y: auto;
-        }
-        
-        .section-title {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .form-group {
-            margin-bottom: 1rem;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 0.25rem;
-            font-weight: 500;
-        }
-        
-        input, textarea, select {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            font-family: inherit;
-        }
-        
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-        
-        .btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: var(--radius);
-            cursor: pointer;
-            font-weight: 500;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .btn:hover {
-            opacity: 0.9;
-        }
-        
-        .btn-secondary {
-            background: var(--bg);
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
-        
-        .btn-group {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-        
-        .resume-preview {
-            background: white;
-            padding: 2rem;
-            min-height: 100%;
-        }
-        
-        .preview-header {
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-        
-        .preview-name {
-            font-size: 1.75rem;
-            color: var(--primary);
-        }
-        
-        .preview-title {
-            color: var(--text-light);
-            font-weight: 500;
-        }
-        
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin: 1rem 0;
-            flex-wrap: wrap;
-        }
-        
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            font-size: 0.9rem;
-        }
-        
-        .resume-section {
-            margin: 1.5rem 0;
-        }
-        
-        .skills-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        
-        .skill-tag {
-            background: var(--primary-light);
-            color: var(--primary);
-            padding: 0.25rem 0.5rem;
-            border-radius: var(--radius);
-            font-size: 0.85rem;
-        }
-        
-        .experience-item {
-            margin-bottom: 1rem;
-        }
-        
-        .job-title {
-            font-weight: 500;
-        }
-        
-        .company {
-            color: var(--primary);
-        }
-        
-        .date {
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-        
-        .job-description {
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-            
-            .card {
-                height: auto;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="container">
-        <header>
-            <h1>📄 Resume Generator</h1>
-            <p class="subtitle">Create professional resumes in minutes</p>
-        </header>
-        
-        <!-- Form Section -->
-        <section class="card">
-            <h2 class="section-title">Your Information</h2>
+    <!-- Authentication Section -->
+    <div id="auth-section" style="display: none;">
+        <div class="container">
+            <header>
+                <h1>📄 Resume Generator</h1>
+                <p class="subtitle">Sign in or register to create professional resumes</p>
+            </header>
             
-            <form id="resume-form">
-                <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="title">Professional Title</label>
-                    <input type="text" id="title" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="phone">Phone</label>
-                    <input type="tel" id="phone">
-                </div>
-                
-                <div class="form-group">
-                    <label for="linkedin">LinkedIn</label>
-                    <input type="url" id="linkedin">
-                </div>
-                
-                <div class="form-group">
-                    <label for="summary">Professional Summary</label>
-                    <textarea id="summary" required></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="skills">Skills (comma separated)</label>
-                    <input type="text" id="skills" required>
-                </div>
-                
-                <div id="experience-container">
-                    <h3 class="section-title">Work Experience</h3>
-                    <div class="experience-form">
-                        <div class="form-group">
-                            <label for="job-title">Job Title</label>
-                            <input type="text" class="job-title">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="company">Company</label>
-                            <input type="text" class="company">
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="start-date">Start Date</label>
-                                <input type="month" class="start-date">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="end-date">End Date</label>
-                                <input type="month" class="end-date">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea class="description"></textarea>
-                        </div>
+            <div class="auth-container" style="max-width: 400px; margin: 0 auto;">
+                <!-- Login Form -->
+                <div id="login-form" class="card">
+                    <h2 class="section-title">Login</h2>
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" id="login-btn" class="btn">Login</button>
+                        <button type="button" onclick="showRegisterForm()" class="btn-secondary">Register Instead</button>
                     </div>
                 </div>
                 
-                <button type="button" id="add-experience" class="btn-secondary">
-                    + Add Experience
-                </button>
-                
-                <div id="education-container">
-                    <h3 class="section-title">Education</h3>
-                    <div class="education-form">
-                        <div class="form-group">
-                            <label for="degree">Degree</label>
-                            <input type="text" class="degree">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="institution">Institution</label>
-                            <input type="text" class="institution">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="grad-year">Graduation Year</label>
-                            <input type="month" class="grad-year">
-                        </div>
+                <!-- Register Form -->
+                <div id="register-form" class="card" style="display: none;">
+                    <h2 class="section-title">Register</h2>
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" id="register-email" required>
                     </div>
-                </div>
-                
-                <button type="button" id="add-education" class="btn-secondary">
-                    + Add Education
-                </button>
-                
-                <div class="btn-group">
-                    <button type="button" id="reset" class="btn-secondary">
-                        Reset Form
-                    </button>
-                    
-                    <button type="button" id="download-pdf" class="btn">
-                        Download PDF
-                    </button>
-                </div>
-            </form>
-        </section>
-        
-        <!-- Preview Section -->
-        <section class="card">
-            <h2 class="section-title">Resume Preview</h2>
-            
-            <div id="resume-preview" class="resume-preview">
-                <div class="preview-header">
-                    <h1 id="preview-name" class="preview-name">Your Name</h1>
-                    <p id="preview-title" class="preview-title">Your Professional Title</p>
-                </div>
-                
-                <div class="contact-info">
-                    <span id="preview-phone" class="contact-item">Phone</span>
-                    <span id="preview-email" class="contact-item">Email</span>
-                    <span id="preview-linkedin" class="contact-item">LinkedIn</span>
-                </div>
-                
-                <div class="resume-section">
-                    <h3>Summary</h3>
-                    <p id="preview-summary">Your professional summary will appear here.</p>
-                </div>
-                
-                <div class="resume-section">
-                    <h3>Skills</h3>
-                    <div id="preview-skills" class="skills-list">
-                        <span class="skill-tag">Sample Skill</span>
+                    <div class="form-group">
+                        <label for="register-password">Password</label>
+                        <input type="password" id="register-password" required>
                     </div>
-                </div>
-                
-                <div class="resume-section">
-                    <h3>Experience</h3>
-                    <div id="preview-experience">
-                        <p>Your work experience will appear here.</p>
+                    <div class="form-group">
+                        <label for="register-confirm-password">Confirm Password</label>
+                        <input type="password" id="register-confirm-password" required>
                     </div>
-                </div>
-                
-                <div class="resume-section">
-                    <h3>Education</h3>
-                    <div id="preview-education">
-                        <p>Your education will appear here.</p>
+                    <div class="btn-group">
+                        <button type="button" id="register-btn" class="btn">Register</button>
+                        <button type="button" onclick="showLoginForm()" class="btn-secondary">Login Instead</button>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
+    
+    <!-- Main Content -->
+    <div id="main-content">
+        <div class="container">
+            <header>
+                <h1>📄 Resume Generator</h1>
+                <p class="subtitle">Create professional resumes in minutes</p>
+            </header>
+            
+            <!-- Form Section -->
+            <section class="card">
+                <h2 class="section-title">Your Information</h2>
+                
+                <form id="resume-form">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="title">Professional Title</label>
+                        <input type="text" id="title" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="linkedin">LinkedIn</label>
+                        <input type="url" id="linkedin">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="summary">Professional Summary</label>
+                        <textarea id="summary" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="skills">Skills (comma separated)</label>
+                        <input type="text" id="skills" required>
+                    </div>
+                    
+                    <div id="experience-container">
+                        <h3 class="section-title">Work Experience</h3>
+                        <div class="experience-form">
+                            <div class="form-group">
+                                <label for="job-title">Job Title</label>
+                                <input type="text" class="job-title">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="company">Company</label>
+                                <input type="text" class="company">
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="start-date">Start Date</label>
+                                    <input type="month" class="start-date">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="end-date">End Date</label>
+                                    <input type="month" class="end-date">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea class="description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="button" id="add-experience" class="btn-secondary">
+                        + Add Experience
+                    </button>
+                    
+                    <div id="education-container">
+                        <h3 class="section-title">Education</h3>
+                        <div class="education-form">
+                            <div class="form-group">
+                                <label for="degree">Degree</label>
+                                <input type="text" class="degree">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="institution">Institution</label>
+                                <input type="text" class="institution">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="grad-year">Graduation Year</label>
+                                <input type="month" class="grad-year">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="button" id="add-education" class="btn-secondary">
+                        + Add Education
+ey                    </button>
 
-    <script>
-        // Form elements
-        const form = document.getElementById('resume-form');
-        const nameInput = document.getElementById('name');
-        const titleInput = document.getElementById('title');
-        const emailInput = document.getElementById('email');
-        const phoneInput = document.getElementById('phone');
-        const linkedinInput = document.getElementById('linkedin');
-        const summaryInput = document.getElementById('summary');
-        const skillsInput = document.getElementById('skills');
-        
-        // Preview elements
-        const previewName = document.getElementById('preview-name');
-        const previewTitle = document.getElementById('preview-title');
-        const previewEmail = document.getElementById('preview-email');
-        const previewPhone = document.getElementById('preview-phone');
-        const previewLinkedin = document.getElementById('preview-linkedin');
-        const previewSummary = document.getElementById('preview-summary');
-        const previewSkills = document.getElementById('preview-skills');
-        const previewExperience = document.getElementById('preview-experience');
-        const previewEducation = document.getElementById('preview-education');
-        
-        // Update preview in real-time
-        form.addEventListener('input', updatePreview);
-        
-        function updatePreview() {
-            // Basic info
-            previewName.textContent = nameInput.value || 'Your Name';
-            previewTitle.textContent = titleInput.value || 'Your Professional Title';
-            previewEmail.textContent = emailInput.value || 'Email';
-            previewPhone.textContent = phoneInput.value || 'Phone';
-            previewLinkedin.textContent = linkedinInput.value ? 'LinkedIn' : '';
+                    <div class="form-group">
+                        <label for="template-type">Resume Template Style</label>
+                        <select id="template-type">
+                            <option value="professional">Professional</option>
+                            <option value="creative">Creative</option>
+                            <option value="academic">Academic</option>
+                            <option value="technical">Technical</option>
+                        </select>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button type="button" id="reset" class="btn-secondary">
+                            Reset Form
+                        </button>
+                        
+                        <button type="button" id="save-resume-btn" class="btn-secondary">
+                            Save Resume
+                        </button>
+                        
+                        <button type="button" id="generate-ai-btn" class="btn">
+                            Generate AI Resume
+                        </button>
+                        
+                        <button type="button" id="download-pdf" class="btn">
+                            Download PDF
+                        </button>
+                        
+                        <button type="button" id="logout-btn" class="btn-secondary">
+                            Logout
+                        </button>
+                    </div>
+                </form>
+            </section>
             
-            // Summary
-            previewSummary.textContent = summaryInput.value || 'Your professional summary will appear here.';
+            <!-- Preview Section -->
+            <section class="card">
+                <h2 class="section-title">Resume Preview</h2>
+                
+                <div id="resume-preview" class="resume-preview">
+                    <div class="preview-header">
+                        <h1 id="preview-name" class="preview-name">Your Name</h1>
+                        <p id="preview-title" class="preview-title">Your Professional Title</p>
+                    </div>
+                    
+                    <div class="contact-info">
+                        <span id="preview-phone" class="contact-item">Phone</span>
+                        <span id="preview-email" class="contact-item">Email</span>
+                        <span id="preview-linkedin" class="contact-item">LinkedIn</span>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h3>Summary</h3>
+                        <p id="preview-summary">Your professional summary will appear here.</p>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h3>Skills</h3>
+                        <div id="preview-skills" class="skills-list">
+                            <span class="skill-tag">Sample Skill</span>
+                        </div>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h3>Experience</h3>
+                        <div id="preview-experience">
+                            <p>Your work experience will appear here.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h3>Education</h3>
+                        <div id="preview-education">
+                            <p>Your education will appear here.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div> <!-- End of main-content -->
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+        <script>
+            // Form elements
+            const form = document.getElementById('resume-form');
+            const nameInput = document.getElementById('name');
+            const titleInput = document.getElementById('title');
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+            const linkedinInput = document.getElementById('linkedin');
+            const summaryInput = document.getElementById('summary');
+            const skillsInput = document.getElementById('skills');
+            const addExperienceBtn = document.getElementById('add-experience');
+            const addEducationBtn = document.getElementById('add-education');
             
-            // Skills
-            if (skillsInput.value) {
-                const skills = skillsInput.value.split(',').map(skill => skill.trim());
-                previewSkills.innerHTML = skills.map(skill => 
-                    `<span class="skill-tag">${skill}</span>`
-                ).join('');
+            // Preview elements
+            const previewName = document.getElementById('preview-name');
+            const previewTitle = document.getElementById('preview-title');
+            const previewEmail = document.getElementById('preview-email');
+            const previewPhone = document.getElementById('preview-phone');
+            const previewLinkedin = document.getElementById('preview-linkedin');
+            const previewSummary = document.getElementById('preview-summary');
+            const previewSkills = document.getElementById('preview-skills');
+            const previewExperience = document.getElementById('preview-experience');
+            const previewEducation = document.getElementById('preview-education');
+            
+            // Experience and education counters
+            let experienceCount = 1;
+            let educationCount = 1;
+            
+            // Update preview in real-time
+            form.addEventListener('input', updatePreview);
+            
+            function updatePreview() {
+                // Basic info
+                previewName.textContent = nameInput.value || 'Your Name';
+                previewTitle.textContent = titleInput.value || 'Your Professional Title';
+                previewEmail.textContent = emailInput.value || 'Email';
+                previewPhone.textContent = phoneInput.value || 'Phone';
+                previewLinkedin.textContent = linkedinInput.value ? 'LinkedIn' : '';
+                
+                // Summary
+                previewSummary.textContent = summaryInput.value || 'Your professional summary will appear here.';
+                
+                // Skills
+                if (skillsInput.value) {
+                    const skills = skillsInput.value.split(',').map(skill => skill.trim());
+                    previewSkills.innerHTML = skills.map(skill => 
+                        `<span class="skill-tag">${skill}</span>`
+                    ).join('');
+                } else {
+                    previewSkills.innerHTML = '<span class="skill-tag">Sample Skill</span>';
+                }
+            }
+            
+            // Add experience section
+            addExperienceBtn.addEventListener('click', () => {
+                const experienceForm = document.createElement('div');
+                experienceForm.className = 'experience-form';
+                experienceForm.innerHTML = `
+                    <div class="form-group">
+                        <label>Job Title ${experienceCount + 1}</label>
+                        <input type="text" class="job-title" placeholder="Senior Developer">
+                    </div>
+                    <div class="form-group">
+                        <label>Company ${experienceCount + 1}</label>
+                        <input type="text" class="company" placeholder="Tech Corp Inc.">
+                    </div>
+                    <div style="display: flex; gap: 1rem;">
+                        <div class="form-group" style="flex: 1;">
+                            <label>Start Date</label>
+                            <input type="month" class="start-date">
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label>End Date</label>
+                            <input type="month" class="end-date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="description" placeholder="Describe your responsibilities and achievements"></textarea>
+                    </div>
+                    <button type="button" class="remove-btn btn-secondary" style="margin-bottom: 1rem;">Remove</button>
+                `;
+                
+                document.getElementById('experience-container').insertBefore(
+                    experienceForm,
+                    addExperienceBtn
+                );
+                
+                // Add event listener to the new remove button
+                experienceForm.querySelector('.remove-btn').addEventListener('click', () => {
+                    experienceForm.remove();
+                    updateExperiencePreview();
+                });
+                
+                // Add input listeners to the new fields
+                const inputs = experienceForm.querySelectorAll('input, textarea');
+                inputs.forEach(input => {
+                    input.addEventListener('input', updateExperiencePreview);
+                });
+                
+                experienceCount++;
+                updateExperiencePreview();
+            });
+            
+            // Add education section
+            addEducationBtn.addEventListener('click', () => {
+                const educationForm = document.createElement('div');
+                educationForm.className = 'education-form';
+                educationForm.innerHTML = `
+                    <div class="form-group">
+                        <label>Degree ${educationCount + 1}</label>
+                        <input type="text" class="degree" placeholder="Bachelor of Science">
+                    </div>
+                    <div class="form-group">
+                        <label>Institution ${educationCount + 1}</label>
+                        <input type="text" class="institution" placeholder="University of Technology">
+                    </div>
+                    <div class="form-group">
+                        <label>Graduation Year</label>
+                        <input type="month" class="grad-year">
+                    </div>
+                    <button type="button" class="remove-btn btn-secondary" style="margin-bottom: 1rem;">Remove</button>
+                `;
+                
+                document.getElementById('education-container').insertBefore(
+                    educationForm,
+                    addEducationBtn
+                );
+                
+                // Add event listener to the new remove button
+                educationForm.querySelector('.remove-btn').addEventListener('click', () => {
+                    educationForm.remove();
+                    updateEducationPreview();
+                });
+                
+                // Add input listeners to the new fields
+                const inputs = educationForm.querySelectorAll('input');
+                inputs.forEach(input => {
+                    input.addEventListener('input', updateEducationPreview);
+                });
+                
+                educationCount++;
+                updateEducationPreview();
+            });
+            
+            function updateExperiencePreview() {
+                const experienceForms = document.querySelectorAll('.experience-form');
+                let html = '';
+                
+                if (experienceForms.length === 0) {
+                    html = '<p>Your work experience will appear here.</p>';
+                } else {
+                    experienceForms.forEach(form => {
+                        const jobTitle = form.querySelector('.job-title').value || 'Job Title';
+                        const company = form.querySelector('.company').value || 'Company';
+                        const startDate = form.querySelector('.start-date').value || 'Start Date';
+                        const endDate = form.querySelector('.end-date').value || 'End Date';
+                        const description = form.querySelector('.description').value || 'Description of responsibilities and achievements.';
+                        
+                        html += `
+                            <div class="experience-item">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span class="job-title">${jobTitle}</span>
+                                    <span class="date">${formatDate(startDate)} - ${formatDate(endDate)}</span>
+                                </div>
+                                <div class="company">${company}</div>
+                                <div class="job-description">${description.replace(/\n/g, '<br>')}</div>
+                            </div>
+                        `;
+                    });
+                }
+                
+                previewExperience.innerHTML = html;
+            }
+            
+            function updateEducationPreview() {
+                const educationForms = document.querySelectorAll('.education-form');
+                let html = '';
+                
+                if (educationForms.length === 0) {
+                    html = '<p>Your education will appear here.</p>';
+                } else {
+                    educationForms.forEach(form => {
+                        const degree = form.querySelector('.degree').value || 'Degree';
+                        const institution = form.querySelector('.institution').value || 'Institution';
+                        const gradYear = form.querySelector('.grad-year').value || 'Graduation Year';
+                        
+                        html += `
+                            <div class="experience-item">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span class="job-title">${degree}</span>
+                                    <span class="date">${formatDate(gradYear)}</span>
+                                </div>
+                                <div class="company">${institution}</div>
+                            </div>
+                        `;
+                    });
+                }
+                
+                previewEducation.innerHTML = html;
+            }
+            
+            function formatDate(dateString) {
+                if (!dateString) return 'Present';
+                const date = new Date(dateString);
+                if (isNaN(date.getTime())) return dateString; // Return original if invalid
+                
+                const options = { year: 'numeric', month: 'short' };
+                return date.toLocaleDateString('en-US', options);
+            }
+            
+            // Initialize preview
+            updatePreview();
+            updateExperiencePreview();
+            updateEducationPreview();
+            
+            // PDF Generation
+            document.getElementById('download-pdf').addEventListener('click', generatePDF);
+            
+            function generatePDF() {
+                // Show loading state
+                const btn = document.getElementById('download-pdf');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = 'Generating...';
+                btn.disabled = true;
+                
+                // Clone the preview to avoid modifying the original
+                const element = document.getElementById('resume-preview');
+                const clone = element.cloneNode(true);
+                
+                // Apply print styles
+                clone.style.padding = '2cm';
+                clone.style.width = '21cm';
+                clone.style.minHeight = '29.7cm';
+                clone.style.margin = '0 auto';
+                clone.style.boxShadow = 'none';
+                
+                // Hide elements not needed in PDF
+                clone.querySelectorAll('.remove-btn, .add-btn').forEach(el => el.style.display = 'none');
+                
+                // Create a temporary container for the clone
+                const tempContainer = document.createElement('div');
+                tempContainer.style.position = 'absolute';
+                tempContainer.style.left = '-9999px';
+                tempContainer.appendChild(clone);
+                document.body.appendChild(tempContainer);
+                
+                // PDF options
+                const opt = {
+                    margin: 10,
+                    filename: `${nameInput.value || 'resume'}.pdf`,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                };
+                
+                // Generate PDF
+                html2pdf()
+                    .set(opt)
+                    .from(clone)
+                    .save()
+                    .then(() => {
+                        // Clean up
+                        document.body.removeChild(tempContainer);
+                        
+                        // Restore button state
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                    });
+            }
+            
+            // Reset form
+            document.getElementById('reset').addEventListener('click', () => {
+                if (confirm('Are you sure you want to reset the form? All data will be lost.')) {
+                    form.reset();
+                    
+                    // Remove all dynamic sections
+                    document.querySelectorAll('.experience-form, .education-form').forEach(el => el.remove());
+                    
+                    // Reset counters
+                    experienceCount = 1;
+                    educationCount = 1;
+                    
+                    // Update all previews
+                    updatePreview();
+                    updateExperiencePreview();
+                    updateEducationPreview();
+                }
+            });
+        
+        // Backend Integration
+        const API_URL = 'http://localhost:5000/api';
+        let authToken = localStorage.getItem('authToken');
+        let currentUser = null;
+        
+        // Check if user is logged in
+        function checkAuth() {
+            const authSection = document.getElementById('auth-section');
+            const mainContent = document.getElementById('main-content');
+            
+            if (authToken) {
+                // User is logged in
+                authSection.style.display = 'none';
+                mainContent.style.display = 'block';
+                fetchUserProfile();
             } else {
-                previewSkills.innerHTML = '<span class="skill-tag">Sample Skill</span>';
+                // User is not logged in
+                authSection.style.display = 'block';
+                mainContent.style.display = 'none';
             }
         }
         
-        // Initialize preview
-        updatePreview();
+        // Register new user
+        async function registerUser(email, password) {
+            try {
+                const response = await fetch(`${API_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.message || 'Registration failed');
+                }
+                
+                alert('Registration successful! Please log in.');
+                document.getElementById('login-email').value = email;
+                showLoginForm();
+            } catch (error) {
+                alert(error.message);
+            }
+        }
         
-        // Download PDF functionality
-        document.getElementById('download-pdf').addEventListener('click', () => {
-            alert('PDF generation would happen here in a real implementation');
-            // In a real app, you would use html2pdf.js or similar library
-        });
+        // Login user
+        async function loginUser(email, password) {
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Login failed');
+                }
+                
+                const data = await response.json();
+                authToken = data.token;
+                localStorage.setItem('authToken', authToken);
+                checkAuth();
+            } catch (error) {
+                alert(error.message);
+            }
+        }
         
-        // Reset form
-        document.getElementById('reset').addEventListener('click', () => {
-            form.reset();
+        // Fetch user profile
+        async function fetchUserProfile() {
+            try {
+                const response = await fetch(`${API_URL}/profile`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    if (response.status === 401 || response.status === 403) {
+                        // Token expired or invalid
+                        logout();
+                        return;
+                    }
+                    throw new Error('Failed to fetch profile');
+                }
+                
+                currentUser = await response.json();
+                populateFormWithUserData();
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        
+        // Populate form with user data
+        function populateFormWithUserData() {
+            if (!currentUser || !currentUser.profile) return;
+            
+            const { personalInfo } = currentUser.profile;
+            
+            if (personalInfo) {
+                nameInput.value = personalInfo.name || '';
+                titleInput.value = personalInfo.title || '';
+                emailInput.value = personalInfo.email || currentUser.email || '';
+                phoneInput.value = personalInfo.phone || '';
+                linkedinInput.value = personalInfo.linkedin || '';
+                summaryInput.value = personalInfo.summary || '';
+            }
+            
+            if (currentUser.profile.skills && currentUser.profile.skills.length > 0) {
+                skillsInput.value = currentUser.profile.skills.join(', ');
+            }
+            
+            // Update experience sections
+            if (currentUser.profile.experience && currentUser.profile.experience.length > 0) {
+                // Clear existing experience forms
+                document.querySelectorAll('.experience-form').forEach(el => el.remove());
+                
+                currentUser.profile.experience.forEach((exp, index) => {
+                    if (index === 0) {
+                        // Update first experience form
+                        const firstForm = document.querySelector('.experience-form');
+                        if (firstForm) {
+                            firstForm.querySelector('.job-title').value = exp.title || '';
+                            firstForm.querySelector('.company').value = exp.company || '';
+                            firstForm.querySelector('.start-date').value = exp.startDate || '';
+                            firstForm.querySelector('.end-date').value = exp.endDate || '';
+                            firstForm.querySelector('.description').value = exp.description || '';
+                        }
+                    } else {
+                        // Add new experience forms for additional entries
+                        addExperienceBtn.click();
+                        const forms = document.querySelectorAll('.experience-form');
+                        const currentForm = forms[forms.length - 1];
+                        
+                        currentForm.querySelector('.job-title').value = exp.title || '';
+                        currentForm.querySelector('.company').value = exp.company || '';
+                        currentForm.querySelector('.start-date').value = exp.startDate || '';
+                        currentForm.querySelector('.end-date').value = exp.endDate || '';
+                        currentForm.querySelector('.description').value = exp.description || '';
+                    }
+                });
+            }
+            
+            // Update education sections
+            if (currentUser.profile.education && currentUser.profile.education.length > 0) {
+                // Clear existing education forms
+                document.querySelectorAll('.education-form').forEach(el => el.remove());
+                
+                currentUser.profile.education.forEach((edu, index) => {
+                    if (index === 0) {
+                        // Update first education form
+                        const firstForm = document.querySelector('.education-form');
+                        if (firstForm) {
+                            firstForm.querySelector('.degree').value = edu.degree || '';
+                            firstForm.querySelector('.institution').value = edu.institution || '';
+                            firstForm.querySelector('.grad-year').value = edu.year || '';
+                        }
+                    } else {
+                        // Add new education forms for additional entries
+                        addEducationBtn.click();
+                        const forms = document.querySelectorAll('.education-form');
+                        const currentForm = forms[forms.length - 1];
+                        
+                        currentForm.querySelector('.degree').value = edu.degree || '';
+                        currentForm.querySelector('.institution').value = edu.institution || '';
+                        currentForm.querySelector('.grad-year').value = edu.year || '';
+                    }
+                });
+            }
+            
+            // Update all previews
             updatePreview();
+            updateExperiencePreview();
+            updateEducationPreview();
+        }
+        
+        // Save resume to backend
+        async function saveResume() {
+            if (!authToken) {
+                alert('Please log in to save your resume');
+                return;
+            }
+            
+            try {
+                // Collect form data
+                const formData = {
+                    personalInfo: {
+                        name: nameInput.value,
+                        title: titleInput.value,
+                        email: emailInput.value,
+                        phone: phoneInput.value,
+                        linkedin: linkedinInput.value,
+                        summary: summaryInput.value
+                    },
+                    skills: skillsInput.value.split(',').map(skill => skill.trim()).filter(skill => skill),
+                    experience: [],
+                    education: []
+                };
+                
+                // Collect experience data
+                document.querySelectorAll('.experience-form').forEach(form => {
+                    formData.experience.push({
+                        title: form.querySelector('.job-title').value,
+                        company: form.querySelector('.company').value,
+                        startDate: form.querySelector('.start-date').value,
+                        endDate: form.querySelector('.end-date').value,
+                        description: form.querySelector('.description').value
+                    });
+                });
+                
+                // Collect education data
+                document.querySelectorAll('.education-form').forEach(form => {
+                    formData.education.push({
+                        degree: form.querySelector('.degree').value,
+                        institution: form.querySelector('.institution').value,
+                        year: form.querySelector('.grad-year').value
+                    });
+                });
+                
+                // Save to backend
+                const response = await fetch(`${API_URL}/profile`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to save resume');
+                }
+                
+                alert('Resume saved successfully!');
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+
+        // Generate AI resume
+        async function generateAIResume() {
+            if (!authToken) {
+                alert('Please log in to generate an AI resume');
+                return;
+            }
+            
+            try {
+                const templateType = document.getElementById('template-type').value || 'professional';
+                
+                const response = await fetch(`${API_URL}/resume/generate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({ templateType })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to generate AI resume');
+                }
+                
+                const data = await response.json();
+                alert('AI Resume generated successfully!');
+                
+                // You can handle the AI-generated resume here
+                console.log(data.content);
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+
+        // Logout function
+        function logout() {
+            authToken = null;
+            currentUser = null;
+            localStorage.removeItem('authToken');
+            checkAuth();
+        }
+
+        // Show login form
+        function showLoginForm() {
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('register-form').style.display = 'none';
+        }
+
+        // Show register form
+        function showRegisterForm() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('register-form').style.display = 'block';
+        }
+
+        // Login and Register button event listeners
+        document.getElementById('login-btn').addEventListener('click', () => {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (!email || !password) {
+                alert('Please enter both email and password');
+                return;
+            }
+            
+            loginUser(email, password);
         });
+        
+        document.getElementById('register-btn').addEventListener('click', () => {
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            
+            if (!email || !password || !confirmPassword) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            registerUser(email, password);
+        });
+
+        // Add save button event listener
+        const saveBtn = document.getElementById('save-resume-btn');
+        if(saveBtn) saveBtn.addEventListener('click', saveResume);
+        
+        // Add generate AI resume button event listener
+        const genAIBtn = document.getElementById('generate-ai-btn');
+        if(genAIBtn) genAIBtn.addEventListener('click', generateAIResume);
+        
+        // Add logout button event listener
+        const logoutBtn = document.getElementById('logout-btn');
+        if(logoutBtn) logoutBtn.addEventListener('click', logout);
+        
+        // Check authentication status on page load
+        checkAuth();
     </script>
 </body>
 </html>
