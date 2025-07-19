@@ -3,13 +3,24 @@
   "builds": [
     {
       "src": "back-end/server.js",
-      "use": "@vercel/node",
-      "config": { 
-        "includeFiles": ["data/**"]  // Explicitly include JSON data
-      }
+      "use": "@vercel/node"
+    },
+    {
+      "src": "public/**/*",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "back-end/server.js" }
+    {
+      "src": "/api/(.*)",
+      "dest": "back-end/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "public/index.html",
+      "headers": {
+        "Cache-Control": "s-maxage=0"
+      }
+    }
   ]
 }
