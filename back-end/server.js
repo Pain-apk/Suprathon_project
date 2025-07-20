@@ -2,10 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
-
-// ✅ Keep only this CORS setup
 app.use(cors({
-  origin: ['http://127.0.0.1:5501', 'http://localhost:3000'],
+  origin: ['http://127.0.0.1:5501', 'http://localhost:5000'],
   credentials: true
 }));
 
