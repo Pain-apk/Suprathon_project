@@ -1,7 +1,5 @@
 module.exports = {
-  loadData: (req) => {
-    return req.dataStore;
-  },
+  loadData: (req) => req.dataStore,
   saveData: (req, data) => {
     req.dataStore = data;
     return true;
